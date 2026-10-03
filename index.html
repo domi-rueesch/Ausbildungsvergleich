@@ -1,0 +1,347 @@
+<title>Ausbildungsvergleich</title>
+<meta name="description" content="Weiterbildungen für Architekt:innen BSc FH in der Schweiz vergleichen: MAS, CAS, Master und Fachausweise mit Schnellcheck.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: Planblatt – Filterleiste links wie eine Legende, Karten rechts wie Planausschnitte; Kosten und Dauer als Masslinien. */
+:root {
+  --paper: #f2f4f1;
+  --surface: #ffffff;
+  --ink: #18211d;
+  --muted: #59665f;
+  --line: #d3d9d4;
+  --line-strong: #a9b3ad;
+  --accent: #1f4fb4;
+  --accent-soft: #e3eafa;
+  --accent-ink: #ffffff;
+  --mark: #b86a12;
+  --mark-soft: #fbefdf;
+  --ok: #2b7a4b;
+  --ok-soft: #e1f1e7;
+  --warn: #9a6512;
+  --warn-soft: #f8edd6;
+  --bad: #a8433a;
+  --bad-soft: #f7e3e0;
+  --shadow: 0 1px 2px rgb(24 33 29 / .06), 0 4px 16px rgb(24 33 29 / .06);
+  --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111614; --surface: #19201d; --ink: #e4ebe6; --muted: #98a59e; --line: #2b3531; --line-strong: #46534d;
+    --accent: #86a6f2; --accent-soft: #1d2a45; --accent-ink: #0d1420; --mark: #e6a659; --mark-soft: #3a2a15;
+    --ok: #6cc391; --ok-soft: #173225; --warn: #e2b25e; --warn-soft: #36290f; --bad: #ec8b80; --bad-soft: #3b1d1a;
+    --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 6px 20px rgb(0 0 0 / .25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111614; --surface: #19201d; --ink: #e4ebe6; --muted: #98a59e; --line: #2b3531; --line-strong: #46534d;
+  --accent: #86a6f2; --accent-soft: #1d2a45; --accent-ink: #0d1420; --mark: #e6a659; --mark-soft: #3a2a15;
+  --ok: #6cc391; --ok-soft: #173225; --warn: #e2b25e; --warn-soft: #36290f; --bad: #ec8b80; --bad-soft: #3b1d1a;
+  --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 6px 20px rgb(0 0 0 / .25);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 15px/1.5 var(--f-body);
+  padding-inline: 16px; padding-block: 0 48px;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1320px; margin-inline: auto; }
+.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font: 600 11px/1.2 var(--f-display); font-stretch: 112%; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* Kopf */
+.kopf { display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; align-items: end; padding-block: 28px 18px; border-bottom: 1px solid var(--line-strong); }
+.kopf > * { min-width: 0; }
+.kopf h1 { margin: 0; font: 760 clamp(26px, 7.5vw, 50px)/0.95 var(--f-display); overflow-wrap: anywhere; font-stretch: 72%; letter-spacing: -.01em; text-transform: uppercase; text-wrap: balance; }
+.kopf h1 span { color: var(--accent); }
+.kopf p { margin: 8px 0 0; color: var(--muted); max-width: 62ch; }
+.ziele { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.ziel { font-size: 12.5px; padding: 2px 9px; border-radius: 99px; background: var(--accent-soft); color: var(--ink); }
+.stempel { justify-self: end; border: 1.5px solid var(--ink); padding: 8px 12px; min-width: 210px; font-size: 12px; line-height: 1.45; }
+.stempel b { font: 700 11px var(--f-display); font-stretch: 112%; letter-spacing: .1em; text-transform: uppercase; display: block; border-bottom: 1px solid var(--ink); margin-bottom: 4px; padding-bottom: 3px; }
+.stempel .num { font-size: 12px; }
+.stempel .alt { color: var(--warn); font-weight: 600; }
+@media (max-width: 720px) { .kopf { grid-template-columns: 1fr; } .stempel { justify-self: stretch; } }
+
+/* Reiter */
+.reiter { display: flex; gap: 2px; flex-wrap: wrap; margin-block: 16px 18px; border-bottom: 1px solid var(--line); }
+.reiter button { border: 0; background: none; padding: 10px 14px; cursor: pointer; font: 650 14px var(--f-display); font-stretch: 100%; letter-spacing: .02em; color: var(--muted); border-bottom: 2.5px solid transparent; margin-bottom: -1px; }
+.reiter button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.reiter .zahl { font: 500 11.5px var(--f-mono); background: var(--line); color: var(--ink); border-radius: 99px; padding: 1px 7px; margin-left: 4px; }
+.reiter .zahl:empty { display: none; }
+
+/* Hauptlayout */
+.haupt { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 900px) { .haupt { grid-template-columns: minmax(0, 1fr); } }
+
+/* Filter */
+.filter { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); max-height: calc(100vh - 24px); overflow: auto; padding-right: 4px; }
+.filter details { border-bottom: 1px solid var(--line); }
+.filter details > summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding-block: 10px; font: 700 13px var(--f-display); font-stretch: 105%; letter-spacing: .06em; text-transform: uppercase; }
+.filter details > summary::-webkit-details-marker { display: none; }
+.filter details > summary::after { content: "+"; font: 400 18px var(--f-mono); color: var(--muted); }
+.filter details[open] > summary::after { content: "–"; }
+.filter .feld { display: grid; gap: 6px; padding-bottom: 14px; }
+.filter label.titel { font-size: 12.5px; color: var(--muted); }
+.suche { width: 100%; padding: 9px 11px; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--surface); }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 99px; padding: 3px 10px; font-size: 12.5px; cursor: pointer; line-height: 1.5; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chips.scroll { max-height: 160px; overflow: auto; }
+.regler { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; }
+.regler input[type=range] { width: 100%; accent-color: var(--accent); grid-column: 1 / -1; }
+.regler output { font: 500 12.5px var(--f-mono); }
+.check { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; cursor: pointer; }
+.check input { accent-color: var(--accent); margin-top: 3px; }
+select.auswahl { width: 100%; padding: 7px 9px; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--surface); }
+.filter-fuss { display: flex; gap: 8px; padding-top: 14px; }
+.knopf { border: 1px solid var(--line-strong); background: var(--surface); border-radius: var(--r); padding: 7px 12px; cursor: pointer; font-size: 13px; font-weight: 500; }
+.knopf:hover { border-color: var(--ink); }
+.knopf.primär { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.filter-toggle { display: none; }
+@media (max-width: 900px) {
+  .filter { position: static; max-height: none; overflow: visible; }
+  .filter-toggle { display: inline-flex; }
+  .filter[data-zu="true"] .filter-inhalt { display: none; }
+}
+
+/* Ergebnisleiste */
+.leiste { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.leiste .anzahl { font: 600 14px var(--f-display); font-stretch: 100%; }
+.leiste .anzahl .num { font-size: 15px; }
+.leiste label { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+.leiste select { padding: 5px 8px; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--surface); }
+
+/* Karten */
+.raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+@media (max-width: 420px) { .raster { grid-template-columns: minmax(0, 1fr); } }
+.karte { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); display: grid; grid-template-rows: auto auto 1fr auto; min-width: 0; }
+.karte:hover { border-color: var(--line-strong); }
+.karte .oben { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 12px 14px 0; }
+.abschluss { font: 700 11px var(--f-display); font-stretch: 112%; letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border: 1.5px solid currentColor; border-radius: 3px; }
+.abschluss[data-a="MAS"] { color: var(--accent); }
+.abschluss[data-a="Master"] { color: var(--ink); background: var(--accent-soft); }
+.abschluss[data-a="CAS"] { color: var(--ink); }
+.abschluss[data-a="Fachausweis"], .abschluss[data-a="Lehrgang"] { color: var(--mark); }
+.abschluss[data-a="Zertifikat"], .abschluss[data-a="Kurs"], .abschluss[data-a="Register"] { color: var(--muted); }
+.ects { font: 500 12px var(--f-mono); color: var(--muted); }
+.passung { display: inline-flex; gap: 3px; align-items: center; }
+.passung i { width: 9px; height: 9px; border: 1.5px solid var(--accent); display: block; }
+.passung i.an { background: var(--accent); }
+.karte h3 { margin: 8px 14px 0; font: 680 18px/1.2 var(--f-display); font-stretch: 88%; text-wrap: balance; }
+.karte .schule { margin: 3px 14px 0; font-size: 13px; color: var(--muted); }
+.check-block { padding: 10px 14px 12px; display: grid; gap: 10px; align-content: start; }
+
+/* Masslinien */
+.mass { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 10px; align-items: end; }
+.mass .lbl { font: 600 10.5px var(--f-display); font-stretch: 112%; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-bottom: 1px; }
+.mass .bahn { position: relative; height: 30px; }
+.mass .linie { position: absolute; left: 0; bottom: 4px; height: 0; border-top: 1px solid var(--ink); min-width: 18px; }
+.mass .linie::before, .mass .linie::after { content: ""; position: absolute; top: -5px; width: 0; height: 9px; border-left: 1px solid var(--ink); transform: skewX(-35deg); }
+.mass .linie::before { left: 0; } .mass .linie::after { right: 0; }
+.mass .wert { position: absolute; left: 8px; bottom: 11px; font: 500 12.5px var(--f-mono); white-space: nowrap; }
+.mass .unbekannt .linie { border-top-style: dashed; border-color: var(--line-strong); }
+
+.fakten { display: flex; flex-wrap: wrap; gap: 4px 6px; font-size: 12.5px; }
+.fakt { padding: 1px 7px; border-radius: 3px; background: var(--paper); border: 1px solid var(--line); }
+.zul { font-size: 12.5px; padding: 2px 8px; border-radius: 99px; display: inline-flex; gap: 6px; align-items: center; justify-self: start; }
+.zul::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.zul[data-z="ja"] { background: var(--ok-soft); color: var(--ok); }
+.zul[data-z="dossier"] { background: var(--warn-soft); color: var(--warn); }
+.zul[data-z="eingeschraenkt"] { background: var(--bad-soft); color: var(--bad); }
+.fuer-dich { font-size: 13.5px; line-height: 1.45; margin: 0; border-left: 2px solid var(--accent); padding-left: 10px; }
+.fuer-dich b { font: 700 10.5px var(--f-display); font-stretch: 112%; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 1px; }
+.karte .aktionen { display: flex; gap: 6px; padding: 10px 14px 12px; border-top: 1px dashed var(--line); align-items: center; flex-wrap: wrap; }
+.aktion { border: 1px solid var(--line-strong); background: transparent; border-radius: var(--r); padding: 5px 10px; font-size: 12.5px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.aktion:hover { border-color: var(--ink); }
+.aktion[aria-pressed="true"].merken { background: var(--mark-soft); border-color: var(--mark); color: var(--mark); }
+.aktion[aria-pressed="true"].vergl { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.aktion.mehr { margin-left: auto; background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.aktion svg { width: 14px; height: 14px; }
+.notiz-hinweis { font-size: 12px; color: var(--muted); display: inline-flex; gap: 4px; align-items: center; }
+.leer { padding: 40px 20px; text-align: center; color: var(--muted); border: 1px dashed var(--line-strong); border-radius: var(--r); }
+.leer b { display: block; color: var(--ink); font: 650 17px var(--f-display); margin-bottom: 4px; }
+
+/* Detail-Schublade */
+.schleier { position: fixed; inset: 0; background: rgb(10 14 12 / .45); z-index: 20; }
+.schublade { position: fixed; top: 0; right: 0; bottom: 0; width: min(640px, 100%); background: var(--surface); z-index: 21; overflow: auto; box-shadow: var(--shadow); border-left: 1px solid var(--line-strong);
+  padding: calc(env(safe-area-inset-top, 0px) + 18px) 22px calc(env(safe-area-inset-bottom, 0px) + 28px); }
+.schublade .zu { position: sticky; top: 0; float: right; border: 1px solid var(--line-strong); background: var(--surface); border-radius: var(--r); width: 36px; height: 36px; cursor: pointer; font-size: 18px; }
+.schublade h2 { margin: 10px 0 4px; font: 720 28px/1.08 var(--f-display); font-stretch: 80%; text-wrap: balance; }
+.schublade .schule { color: var(--muted); margin: 0 0 14px; }
+.tabelle { display: grid; grid-template-columns: 130px minmax(0, 1fr); border-top: 1.5px solid var(--ink); margin-bottom: 18px; }
+.tabelle dt, .tabelle dd { margin: 0; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.tabelle dt { font: 600 11px/1.9 var(--f-display); font-stretch: 112%; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); padding-right: 10px; }
+.abschnitt { margin-block: 18px; }
+.abschnitt h4 { margin: 0 0 6px; font: 700 12px var(--f-display); font-stretch: 112%; letter-spacing: .1em; text-transform: uppercase; }
+.abschnitt p { margin: 0; max-width: 65ch; }
+.abschnitt.betont { background: var(--accent-soft); padding: 12px 14px; border-radius: var(--r); }
+.hinweis { font-size: 13px; color: var(--warn); background: var(--warn-soft); padding: 8px 12px; border-radius: var(--r); }
+.notiz { width: 100%; min-height: 110px; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--paper); resize: vertical; line-height: 1.45; }
+.notiz-status { font-size: 12px; color: var(--muted); margin-top: 4px; min-height: 1.4em; }
+.verwandt { display: flex; flex-wrap: wrap; gap: 6px; }
+.verwandt button { border: 1px solid var(--line-strong); background: var(--paper); border-radius: var(--r); padding: 4px 10px; font-size: 13px; cursor: pointer; text-align: left; }
+.schublade .aktionen { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 14px; }
+@media (max-width: 520px) { .tabelle { grid-template-columns: 100px minmax(0, 1fr); } }
+
+/* Baukasten */
+.bk-intro { max-width: 70ch; color: var(--muted); margin: 0 0 18px; }
+.bk-liste { display: grid; gap: 18px; }
+.baum { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; }
+.baum-kopf { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; justify-content: space-between; }
+.baum-kopf h3 { margin: 0; font: 700 19px/1.2 var(--f-display); font-stretch: 85%; }
+.baum-kopf h3 button { all: unset; cursor: pointer; }
+.baum-kopf h3 button:hover { text-decoration: underline; }
+.baum-kopf .meta { font: 500 12.5px var(--f-mono); color: var(--muted); }
+.zweige { list-style: none; margin: 12px 0 0 6px; padding: 0 0 0 18px; border-left: 1.5px solid var(--line-strong); display: grid; gap: 6px; }
+.zweige li { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 6px 10px; background: var(--paper); border-radius: var(--r); }
+.zweige li::before { content: ""; position: absolute; left: -19.5px; top: 50%; width: 15px; border-top: 1.5px solid var(--line-strong); }
+.zweige li button.name { all: unset; cursor: pointer; font-size: 14px; font-weight: 500; }
+.zweige li button.name:hover { text-decoration: underline; }
+.zweige li .meta { font: 500 12px var(--f-mono); color: var(--muted); white-space: nowrap; }
+.zweige li.gewaehlt { outline: 1.5px solid var(--mark); background: var(--mark-soft); }
+.zweige li.thesis { background: transparent; border: 1px dashed var(--line-strong); color: var(--muted); font-size: 13px; }
+.baum-fuss { margin-top: 10px; font-size: 13px; color: var(--muted); }
+.baum-fuss .num { color: var(--ink); }
+
+/* Vergleich */
+.vg-leer { max-width: 60ch; }
+.vg-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+table.vg { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 13.5px; }
+table.vg th, table.vg td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+table.vg thead th { position: sticky; top: 0; background: var(--surface); border-bottom: 1.5px solid var(--ink); font: 700 15px/1.2 var(--f-display); font-stretch: 88%; min-width: 200px; }
+table.vg thead th:first-child { min-width: 120px; }
+table.vg tbody th { font: 600 11px/1.6 var(--f-display); font-stretch: 112%; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); width: 130px; }
+table.vg td.bester { background: var(--ok-soft); }
+table.vg .x { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 12px; padding: 0; margin-top: 4px; display: block; }
+
+.sync { font-size: 12px; color: var(--muted); display: inline-flex; gap: 6px; align-items: center; }
+.sync::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--line-strong); }
+.sync[data-modus="konto"]::before { background: var(--ok); }
+.fussnote { margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--muted); max-width: 90ch; }
+@media (prefers-reduced-motion: no-preference) { .karte { transition: border-color .15s; } }
+</style>
+
+<div class="wrap">
+  <header class="kopf">
+    <div>
+      <div class="eyebrow">Weiterbildungen Schweiz · schulübergreifend</div>
+      <h1>Ausbildungs<span>vergleich</span></h1>
+      <p>MAS, CAS, Master und Fachausweise für Architekt:innen BSc FH. Jede Karte zeigt einen Schnellcheck und eine Einschätzung, wie gut das Angebot zu deinen Zielen passt.</p>
+      <div class="ziele" id="ziele"></div>
+    </div>
+    <aside class="stempel" aria-label="Datenstand">
+      <b>Planstand</b>
+      <div>Daten: <span class="num" id="stand"></span></div>
+      <div><span class="num" id="anzahl-total"></span> Angebote, <span class="num" id="anzahl-schulen"></span> Anbieter</div>
+      <div id="stand-hinweis"></div>
+      <div><span class="sync" id="sync" data-modus="lokal">Merkliste lokal gespeichert</span></div>
+    </aside>
+  </header>
+
+  <nav class="reiter" role="tablist" aria-label="Ansicht">
+    <button role="tab" id="tab-katalog" data-ansicht="katalog" aria-selected="true">Katalog</button>
+    <button role="tab" id="tab-baukasten" data-ansicht="baukasten" aria-selected="false">Baukasten</button>
+    <button role="tab" id="tab-vergleich" data-ansicht="vergleich" aria-selected="false">Vergleich<span class="zahl num" id="zahl-vergleich"></span></button>
+    <button role="tab" id="tab-merkliste" data-ansicht="merkliste" aria-selected="false">Merkliste<span class="zahl num" id="zahl-merkliste"></span></button>
+  </nav>
+
+  <div class="haupt" id="haupt">
+    <aside class="filter" id="filter" data-zu="true" aria-label="Filter">
+      <div class="filter-fuss" style="padding-top:0;padding-bottom:10px">
+        <button class="knopf filter-toggle" id="filter-toggle" aria-expanded="false" aria-controls="filter-inhalt">Filter anzeigen</button>
+      </div>
+      <div class="filter-inhalt" id="filter-inhalt">
+        <div class="feld">
+          <label class="titel" for="f-suche">Suche</label>
+          <input class="suche" id="f-suche" type="search" placeholder="z.B. Holz, Re-Use, Recht …" autocomplete="off">
+        </div>
+        <details open><summary>Abschluss</summary><div class="feld"><div class="chips" id="f-abschluss"></div></div></details>
+        <details open><summary>Thema</summary><div class="feld"><div class="chips" id="f-thema"></div></div></details>
+        <details open><summary>Kosten &amp; Dauer</summary>
+          <div class="feld">
+            <div class="regler">
+              <label class="titel" for="f-kosten">Kosten bis</label><output id="o-kosten" class="num" for="f-kosten"></output>
+              <input type="range" id="f-kosten" min="2000" max="55000" step="500">
+            </div>
+            <label class="check"><input type="checkbox" id="f-ohnepreis" checked> Angebote ohne Preisangabe zeigen</label>
+            <div class="regler">
+              <label class="titel" for="f-dauer">Dauer bis</label><output id="o-dauer" class="num" for="f-dauer"></output>
+              <input type="range" id="f-dauer" min="1" max="48" step="1">
+            </div>
+          </div>
+        </details>
+        <details open><summary>Zeitmodell &amp; Form</summary>
+          <div class="feld">
+            <span class="titel">Zeitmodell</span><div class="chips" id="f-zeit"></div>
+            <span class="titel">Unterrichtsform</span><div class="chips" id="f-form"></div>
+          </div>
+        </details>
+        <details><summary>Ort &amp; Sprache</summary>
+          <div class="feld">
+            <label class="titel" for="f-ort">Unterrichtsort</label>
+            <select class="auswahl" id="f-ort"></select>
+            <span class="titel">Sprache</span><div class="chips" id="f-sprache"></div>
+          </div>
+        </details>
+        <details><summary>Schule</summary><div class="feld"><div class="chips scroll" id="f-schule"></div></div></details>
+        <details open><summary>Zulassung &amp; Passung</summary>
+          <div class="feld">
+            <span class="titel">Zugang mit Bachelor FH</span><div class="chips" id="f-zul"></div>
+            <label class="titel" for="f-passung">Passung zu deinen Zielen mindestens</label>
+            <select class="auswahl" id="f-passung">
+              <option value="1">alle</option><option value="2">■■ und mehr</option><option value="3">■■■ und mehr</option><option value="4">■■■■ und mehr</option><option value="5">■■■■■</option>
+            </select>
+          </div>
+        </details>
+        <div class="filter-fuss"><button class="knopf" id="f-reset">Filter zurücksetzen</button></div>
+      </div>
+    </aside>
+
+    <main id="inhalt" style="min-width:0">
+      <section id="ansicht-katalog">
+        <div class="leiste">
+          <div class="anzahl"><span class="num" id="treffer"></span> Treffer</div>
+          <label for="sortierung">Sortieren
+            <select id="sortierung">
+              <option value="passung">nach Passung</option>
+              <option value="kosten">nach Kosten (günstig zuerst)</option>
+              <option value="dauer">nach Dauer (kurz zuerst)</option>
+              <option value="ects">nach ECTS (viele zuerst)</option>
+              <option value="titel">alphabetisch</option>
+            </select>
+          </label>
+        </div>
+        <div class="raster" id="raster"></div>
+      </section>
+      <section id="ansicht-baukasten" hidden>
+        <p class="bk-intro">Viele Programme sind stapelbar: Du startest mit einem CAS und lässt es später an einen DAS oder MAS anrechnen. Hier siehst du, welche Bausteine zu welchem MAS gehören. Gemerkte Bausteine sind farbig hervorgehoben.</p>
+        <div class="bk-liste" id="baukasten"></div>
+      </section>
+      <section id="ansicht-vergleich" hidden><div id="vergleich"></div></section>
+      <section id="ansicht-merkliste" hidden>
+        <div class="leiste"><div class="anzahl"><span class="num" id="treffer-merk"></span> gemerkt</div></div>
+        <div class="raster" id="merkliste"></div>
+      </section>
+    </main>
+  </div>
+
+  <p class="fussnote">Angaben ohne Gewähr, recherchiert anhand der Programmseiten und Bildungsportale. Kosten, Daten und Zulassung ändern sich jährlich; massgebend ist die verlinkte Seite der Schule. Die Passung (■) ist eine Einschätzung für die Ziele Nachhaltigkeit, Umbau, KI, eigenes Büro/Immobilien und Projektleitung.</p>
+</div>
+
+<div class="schleier" id="schleier" hidden></div>
+<aside class="schublade" id="schublade" role="dialog" aria-modal="true" aria-labelledby="d-titel" hidden></aside>
+
+<script src="daten/weiterbildungen.js"></script>
+<script src="app.js"></script>
