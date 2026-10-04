@@ -136,6 +136,9 @@ select.auswahl { width: 100%; padding: 7px 9px; border: 1px solid var(--line-str
 .abschluss[data-a="Fachausweis"], .abschluss[data-a="Lehrgang"] { color: var(--mark); }
 .abschluss[data-a="Zertifikat"], .abschluss[data-a="Kurs"], .abschluss[data-a="Register"] { color: var(--muted); }
 .ects { font: 500 12px var(--f-mono); color: var(--muted); }
+.naehe { font-size: 11.5px; padding: 1px 7px; border-radius: 99px; border: 1px dashed var(--line-strong); color: var(--muted); }
+.naehe[data-n="kern"] { border-style: solid; color: var(--ink); }
+.naehe[data-n="weit"] { color: var(--mark); border-color: var(--mark); }
 .passung { display: inline-flex; gap: 3px; align-items: center; }
 .passung i { width: 9px; height: 9px; border: 1.5px solid var(--accent); display: block; }
 .passung i.an { background: var(--accent); }
@@ -237,7 +240,7 @@ table.vg .x { border: 0; background: none; color: var(--muted); cursor: pointer;
   <header class="kopf">
     <div>
       <div class="eyebrow">Weiterbildungen Schweiz · schulübergreifend</div>
-      <h1>Ausbildungs<span>vergleich</span></h1>
+      <h1>Ausbildungs<wbr><span>vergleich</span></h1>
       <p>MAS, CAS, Master und Fachausweise für Architekt:innen BSc FH. Jede Karte zeigt einen Schnellcheck und eine Einschätzung, wie gut das Angebot zu deinen Zielen passt.</p>
       <div class="ziele" id="ziele"></div>
     </div>
@@ -268,6 +271,7 @@ table.vg .x { border: 0; background: none; color: var(--muted); cursor: pointer;
           <input class="suche" id="f-suche" type="search" placeholder="z.B. Holz, Re-Use, Recht …" autocomplete="off">
         </div>
         <details open><summary>Abschluss</summary><div class="feld"><div class="chips" id="f-abschluss"></div></div></details>
+        <details open><summary>Nähe zum Beruf</summary><div class="feld"><div class="chips" id="f-naehe"></div><span class="titel">Kern: direkt Architekturpraxis · Angrenzend: Bau, Immobilien, Planung · Umstieg: branchenfremd</span></div></details>
         <details open><summary>Thema</summary><div class="feld"><div class="chips" id="f-thema"></div></div></details>
         <details open><summary>Kosten &amp; Dauer</summary>
           <div class="feld">

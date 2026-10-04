@@ -4,7 +4,7 @@ Web-App zum Vergleichen von Weiterbildungen für Architekt:innen BSc FH in der S
 
 ## Funktionen
 
-- **Katalog** mit 71 Angeboten von 23 Anbietern, filterbar nach Abschluss, Thema, Kosten, Dauer, Zeitmodell (Teil-/Vollzeit), Unterrichtsform, Ort, Sprache, Schule, Zulassung und Passung
+- **Katalog** mit 116 Angeboten von 33 Anbietern, filterbar nach Abschluss, Nähe zum Beruf, Thema, Kosten, Dauer, Zeitmodell (Teil-/Vollzeit), Unterrichtsform, Ort, Sprache, Schule, Zulassung und Passung
 - **Schnellcheck** auf jeder Karte: Dauer und Kosten als Masslinien, Zeitmodell, Form, Ort, Sprache, Zulassung mit FH-Bachelor und «Für dich»-Einschätzung
 - **Details** mit Relevanz für Architekt:innen BSc FH, Lerninhalten, Nutzen, Hinweisen und eigener Notiz
 - **Baukasten**: stapelbare CAS → MAS als Baum

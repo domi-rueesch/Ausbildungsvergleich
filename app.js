@@ -117,7 +117,7 @@
   // ───────── Filterzustand ─────────
   const LS_FILTER = "av.filter.v1";
   const STANDARD = () => ({
-    suche: "", abschluss: [], thema: [], zeit: [], form: [], sprache: [], schule: [], zul: [],
+    suche: "", abschluss: [], thema: [], zeit: [], form: [], sprache: [], schule: [], zul: [], naehe: [],
     ort: "", kostenMax: KOSTEN_MAX, ohnePreis: true, dauerMax: DAUER_MAX, passungMin: 1, sort: "passung"
   });
   let F = Object.assign(STANDARD(), lsGet(LS_FILTER, {}));
@@ -132,8 +132,11 @@
     sprache: uniq(P.flatMap((p) => p.sprache)).sort(),
     schule: uniq(P.map((p) => p.schule)).sort((a, b) => a.localeCompare(b, "de")),
     zul: ["ja", "dossier", "eingeschraenkt"],
+    naehe: ["kern", "angrenzend", "weit"],
     ort: uniq(P.flatMap((p) => p.orte)).filter((o) => o !== "diverse" && !o.startsWith("weitere")).sort((a, b) => a.localeCompare(b, "de"))
   };
+  const NAEHE_LABEL = { kern: "Kern Architektur", angrenzend: "Angrenzend", weit: "Branchenfremd / Umstieg" };
+  const NAEHE_KURZ = { kern: "Kern", angrenzend: "Angrenzend", weit: "Umstieg" };
   const ZUL_LABEL = { ja: "genügt", dossier: "sur dossier", eingeschraenkt: "Master/Auflagen" };
 
   function passt(p) {
@@ -149,6 +152,7 @@
     if (F.sprache.length && !F.sprache.some((s) => p.sprache.includes(s))) return false;
     if (F.schule.length && !F.schule.includes(p.schule)) return false;
     if (F.zul.length && !F.zul.includes(p.zulassungFh)) return false;
+    if (F.naehe.length && !F.naehe.includes(p.naehe)) return false;
     if (F.ort && !p.orte.includes(F.ort)) return false;
     if (p.kostenChf == null) { if (!F.ohnePreis) return false; }
     else if (F.kostenMax < KOSTEN_MAX && p.kostenChf > F.kostenMax) return false;
@@ -187,7 +191,7 @@
     const notiz = Speicher.notiz(p.id);
     return `<article class="karte" data-id="${p.id}">
       <div class="oben">
-        <div style="display:flex;gap:8px;align-items:center"><span class="abschluss" data-a="${esc(p.abschluss)}">${esc(p.abschluss)}</span>${p.ects ? `<span class="ects">${p.ects} ECTS</span>` : ""}</div>
+        <div style="display:flex;gap:8px;align-items:center"><span class="abschluss" data-a="${esc(p.abschluss)}">${esc(p.abschluss)}</span>${p.ects ? `<span class="ects">${p.ects} ECTS</span>` : ""}<span class="naehe" data-n="${p.naehe}" title="${NAEHE_LABEL[p.naehe]}">${NAEHE_KURZ[p.naehe]}</span></div>
         ${passungHtml(p.passung)}
       </div>
       <h3>${esc(p.titel)}</h3>
@@ -227,6 +231,7 @@
     chipsAufbauen("f-sprache", "sprache");
     chipsAufbauen("f-schule", "schule");
     chipsAufbauen("f-zul", "zul", (z) => ZUL_LABEL[z]);
+    chipsAufbauen("f-naehe", "naehe", (n) => NAEHE_LABEL[n]);
     $("#f-ort").innerHTML = `<option value="">Alle Orte</option>` + OPTIONEN.ort.map((o) => `<option ${F.ort === o ? "selected" : ""}>${esc(o)}</option>`).join("");
     $("#f-suche").value = F.suche;
     $("#f-kosten").value = F.kostenMax;
@@ -306,6 +311,7 @@
       ["Passung", (p) => passungHtml(p.passung), (p) => differiert((x) => x.passung) && p.passung === maxP],
       ["Dauer", (p) => esc(p.dauerText), (p) => differiert((x) => x.dauerMonate) && p.dauerMonate === minD],
       ["Kosten", (p) => esc(p.kostenText), (p) => differiert((x) => x.kostenChf) && p.kostenChf === minK],
+      ["Nähe zum Beruf", (p) => NAEHE_LABEL[p.naehe]],
       ["Zeitmodell", (p) => esc(p.zeitmodell.join(" / "))],
       ["Form", (p) => esc(p.form)],
       ["Ort", (p) => esc(p.orte.join(", "))],
@@ -373,6 +379,7 @@
         <dt>Sprache</dt><dd>${esc(p.sprache.join(", "))}</dd>
         <dt>Zulassung</dt><dd><span class="zul" data-z="${p.zulassungFh}">${ZUL_TEXT[p.zulassungFh]}</span><br>${esc(p.zulassung)}</dd>
         <dt>Start</dt><dd>${esc(p.start)}</dd>
+        <dt>Nähe zum Beruf</dt><dd>${NAEHE_LABEL[p.naehe]}</dd>
         <dt>Themen</dt><dd>${esc(p.themen.join(", "))}</dd>
       </dl>
       <div class="abschnitt betont"><h4>Warum relevant für Architekt:innen BSc FH</h4><p>${esc(p.relevanz)}</p></div>
